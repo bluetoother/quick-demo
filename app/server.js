@@ -93,37 +93,6 @@ function app () {
 /************************/
     central.on('ready', function () {
         readyInd();
-
-        central.blocker.enable('white');
-
-        central.on('ind', function (msg) {
-            var dev = msg.periph;
-
-            switch (msg.type) {
-                /*** devIncoming      ***/
-                case 'devIncoming':
-                    devIncomingInd(cookRawDev(dev));
-                    break;
-
-                /*** devStatus        ***/
-                case 'devStatus':
-                    devStatusInd(dev.addr, msg.data);
-                    break;
-
-                /*** attrsChange      ***/
-                case 'attChange':
-                    var sid = msg.data.sid,
-                        cid = msg.data.cid,
-                        gad = dev.dump(sid.uuid, cid.handle);
-             
-                    valueName = getGadProp(gad).valueName;
-
-                    if (!_.isNil(valueName) && !_.isNil(msg.data.value[valueName])) 
-                        attrsChangeInd(dev.addr, cookRawGad(gad, sid.uuid));
-                    
-                    break;
-            }
-        });
     });
 
     /*** permitJoining    ***/
@@ -134,6 +103,35 @@ function app () {
     /*** error            ***/
     central.on('error', function (err) {
         errorInd(err.message);
+    });
+
+    central.on('ind', function (msg) {
+        var dev = msg.periph;
+
+        switch (msg.type) {
+            /*** devIncoming      ***/
+            case 'devIncoming':
+                devIncomingInd(cookRawDev(dev));
+                break;
+
+            /*** devStatus        ***/
+            case 'devStatus':
+                devStatusInd(dev.addr, msg.data);
+                break;
+
+            /*** attrsChange      ***/
+            case 'attChange':
+                var sid = msg.data.sid,
+                    cid = msg.data.cid,
+                    gad = dev.dump(sid.uuid, cid.handle);
+         
+                valueName = getGadProp(gad).valueName;
+
+                if (!_.isNil(valueName) && !_.isNil(msg.data.value[valueName])) 
+                    attrsChangeInd(dev.addr, cookRawGad(gad, sid.uuid));
+                
+                break;
+        }
     });
 }
 
