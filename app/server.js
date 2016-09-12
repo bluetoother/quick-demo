@@ -326,7 +326,10 @@ function getGadProp (gad) {
             prop.name = 'Switch';
             prop.valueName = 'dInState';
             break;
-        case '0xcc':
+        case '0xcc04':
+            if (gad.value.sensorType !== 'flame')
+                return;
+
             prop.name = 'Flame';
             prop.valueName = 'sensorValue';
             break;
@@ -469,7 +472,7 @@ function simpleApp () {
         toastInd('Flame sensor detect the presence of a flame or fire, buzzer would be turned on');
 
         setTimeout(function () {
-            attChangeInd(sensorPeriph, '0xbb00', '0xcc', true);
+            attChangeInd(sensorPeriph, '0xbb00', '0xcc04', true);
         }, 5000);
 
         setTimeout(function () {
@@ -477,7 +480,7 @@ function simpleApp () {
         }, 5300);
 
         setTimeout(function () {
-            attChangeInd(sensorPeriph, '0xbb00', '0xcc', false);
+            attChangeInd(sensorPeriph, '0xbb00', '0xcc04', false);
         }, 9500);
 
         setTimeout(function () {

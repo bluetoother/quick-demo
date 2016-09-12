@@ -28,14 +28,15 @@ var sensorPeriphInfo = {
                     },
                     // flame
                     {
-                        uuid: '0xcc',
+                        uuid: '0xcc04',
                         handle: 5,
                         prop: [ 'read', 'notify' ],
                         desc: null,
                         value: {
                             id: 0, 
-                            flags: 0, 
-                            sensorValue: false
+                            flags: 128, 
+                            sensorValue: false,
+                            sensorType: 'flame'
                         }
                     },
                     // pir
