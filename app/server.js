@@ -295,9 +295,13 @@ function getGadProp (gad) {
 
     switch (gad.uuid) {
         case '0xcc00':
-            // if (gad.value)
-            prop.name = 'Pir';
-            prop.valueName = 'dInState';
+            if (gad.value.sensorType === 'pir') {
+                prop.name = 'Pir';
+                prop.valueName = 'dInState';
+            } else {
+                return;
+            }
+            
             break;
         case '0xcc05':
             if (gad.value.units !== 'lux')
@@ -327,11 +331,13 @@ function getGadProp (gad) {
             prop.valueName = 'dInState';
             break;
         case '0xcc04':
-            if (gad.value.sensorType !== 'flame')
+            if (gad.value.sensorType === 'flame') {
+                prop.name = 'Flame';
+                prop.valueName = 'sensorValue';
+            } else {
                 return;
-
-            prop.name = 'Flame';
-            prop.valueName = 'sensorValue';
+            }
+            
             break;
         default:
             return;
@@ -469,7 +475,7 @@ function simpleApp () {
     }, 41000);
 
     setTimeout(function () {
-        toastInd('Flame sensor detect the presence of a flame or fire, buzzer would be turned on');
+        toastInd('Flame sensor detect the presence of a fire, buzzer would be turned on');
 
         setTimeout(function () {
             attChangeInd(sensorPeriph, '0xbb00', '0xcc04', true);

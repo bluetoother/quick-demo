@@ -47,8 +47,9 @@ var sensorPeriphInfo = {
                         desc: null,
                         value: { 
                             id: 0, 
-                            flags: 0, 
-                            dInState: false 
+                            flags: 64, 
+                            dInState: false,
+                            sensorType: 'pir' 
                         }
                     }                 
                 ]
